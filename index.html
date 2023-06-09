@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/style.css">
+    <title>Document</title>
+</head>
+<body>
+<h1>自分との対話を促すアプリ</h1>
+    <div id="egogram">
+        精神科医エリックパーンは、人間には、親らしさ、大人らしさ、子供らしさの３つの自我状態があるというパーソナリティ理論を提唱しました。
+        その理論に基づいて、自分の心のいろいろな部分と会話してみましょう。
+        <div>
+        <ul>
+            <li><em>批判的な親（CP）</em>
+                厳しい心。社会規範や目標達成のために自分や他者を律する。</li>
+            <li><em>養育的な親（NP）</em>
+                優しい心。愛情深く、思いやりがり、保護的で親切である。</li>
+            <li><em>大人（A）</em>
+                論理的な心。データや事実を元に客観的に考え、合理的に判断、行動する。
+            </li>
+            <li><em>自由な子供（FC）</em>
+                自由奔放な心。明るくユーモアがあるが自己中心的
+            </li>
+            <li><em>順応した子供（AC）</em>協調的な心。他人の評価を気にし遠慮がち</li>
+            <li><em>反抗的な子供（RC）</em>自分の欲求や思いを抑圧しすぎて反発的になった状態</li>
+        </ul>
+        </div>
+        <div id="details">自分が感じていることを入力して送信してください。<br>
+            不安など自分の内で湧き上がってくる気持ちを、それぞれの心のパートになって返信してみましょう。<br>
+            例えば、他人の自分への言動に批判的な気持ちがあれば、CP、優しい気持ちがあればNP、などです。</div>
+
+
+<div id="select">
+    <select name="kokoro" id="egos">
+        <option id="self">😶自分</option>
+        <option id="cp">🤨批判的な親（CP）</option>
+        <option id="np">😊養育的な親（NP）</option>
+        <option id="a">🤔大人（A）</option>
+        <option id="fc">🤪自由な子供（FC）</option>
+        <option id="ac">😐従順な子供（AC）</option>
+        <option id="rc">😈反発的な子供（RC）</option>
+    </select>
+    <div id="help"> ℹ️ 使い方</div>
+</div>
+<div id="sendSection">
+    <textarea id="text"></textarea>
+    <button id="send">送信</button>
+</div>
+</div>
+
+<div id="output"></div>
+
+<footer>
+    <hr>
+    2023 all right reserved.
+</footer>
+
+
+
+<!--** 以下Firebase **-->
+
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js";
+    import { getDatabase, ref, push, set, onChildAdded, remove, onChildRemoved }
+        from "https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js";
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+        apiKey: "**************",
+        authDomain: "**************",
+        projectId: "**************",
+        storageBucket: "**************",
+        messagingSenderId: "**************",
+        appId: "**************"
+    };
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app); //RealtimeDBに接続
+const dbRef = ref(db, "chat"); //RealtimeDB内の"chat"を使う
+
+//データ登録(Enter) 
+document.querySelector("#send").addEventListener("click", function(){
+    const selectElement = document.querySelector("[name='kokoro']");
+    const selectedOption = selectElement.options[selectElement.selectedIndex];
+    const selectedOptionText = selectedOption.textContent;
+    const text = document.querySelector("#text").value;
+    
+    const msg = {
+        kokoro: selectedOptionText,
+        text: text
+    }
+    const newPostRef = push(dbRef);
+    set(newPostRef, msg);
+});
+
+//最初にデータ取得＆onSnapshotでリアルタイムにデータを取得
+onChildAdded(dbRef, function(data){
+    const msg = data.val();
+    const key = data.key;
+
+    let type = ""
+
+    if (msg.kokoro == "😶自分"){
+        type = "self";
+    }else if (msg.kokoro == "🤨批判的な親（CP）"){
+        type = "cp";
+    }else if (msg.kokoro=="😊養育的な親（NP）"){
+        type = "np";
+    }else if (msg.kokoro == "🤔大人（A）"){
+        type = "a";
+    }else if (msg.kokoro =="🤪自由な子供（FC）"){
+        type ="fc";
+    }else if (msg.kokoro == "😐従順な子供（AC）"){
+        type = "ac";
+    }else if (msg.kokoro == "😈反発的な子供（RC）"){
+        type = "rc";
+    }
+
+    let h = `<p id=${type}>`;
+        h += msg.kokoro;
+        h += '<br>'
+        h += msg.text;
+        h += '</p>';
+    
+
+    const outputElement = document.querySelector("#output");
+    outputElement.insertAdjacentHTML("beforeend", h);
+
+    // テキストエリアの要素を取得
+    const textareaElement = document.querySelector("#text");
+
+    // テキストエリアの値をクリア
+    textareaElement.value = "";
+
+
+})
+
+</script>
+<script src="./script/script.js"></script>
+
+</body>
+</html>

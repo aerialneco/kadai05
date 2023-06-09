@@ -1,0 +1,148 @@
+body {
+    padding: 0px;
+    margin: 20px;
+}
+
+select {
+    padding: 3px;
+    margin: 5px;
+    width: 200px;
+}
+
+#select {
+    display: flex;
+    align-items: center;
+}
+
+textarea {
+    padding: 3px;
+    margin: 5px;
+    width: 200px; 
+    height: auto;
+}
+
+p {
+    width: 300px;
+    height: auto;
+    background-color: beige;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+#self {
+    background-color: rgb(247, 241, 241);
+}
+
+#cp {
+    background-color:  gray;
+    color: white;
+}
+
+#np {
+    background-color: pink;
+}
+
+#a {
+    background-color: blue;
+    color: white;
+}
+
+#fc {
+    background-color: rgb(246, 246, 123);
+}
+
+#ac {
+    background-color: antiquewhite;
+}
+
+#rc {
+    background-color: orangered;
+}
+
+em {
+    font-weight: bolder;
+    font-style: normal;
+}
+
+#egogram {
+    padding: 3px;
+    width: 400px;
+    position: relative;
+}
+
+ul {
+    font-size: 0.8rem;
+}
+
+#help {
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: rgb(75, 75, 173);
+}
+
+#send {
+    background-color: rgb(75, 101, 171);
+    color: white;
+    border-radius: 3px;
+    padding: 3px;
+    margin: 5px;
+}
+
+#sendSection {
+    display: flex;
+    align-items: flex-end;
+}
+
+#details {
+    display: none;
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    background: rgb(75, 101, 171);
+    padding: 4px 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    line-height: 1.8;
+    animation: fadeIn 0.6s;
+    color: #FFF;
+    border-radius: 3px;
+    filter: drop-shadow(0px 1px 4px #aaa);
+}
+
+#details:before {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -8px;
+    border: 8px solid transparent;
+    border-top: 8px solid rgb(75, 101, 171);
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
+}
+
+#output {
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgb(154, 151, 151);
+    margin: 5px;
+    padding: 5px;
+    overflow: auto;
+    height: 400px;
+    width: 400px;
+}
+
+hr {
+    width: 420px;
+    text-align:left;
+    margin-left:0px;
+}
+
+footer {
+    font-size: 0.8rem;
+}
